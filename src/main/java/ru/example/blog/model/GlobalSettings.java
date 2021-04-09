@@ -1,37 +1,51 @@
 package ru.example.blog.model;
 
-import lombok.Data;
-import ru.example.blog.model.enums.GlobalSetting;
-
-
 import javax.persistence.*;
 
 
 @Entity
 @Table(name = "global_settings")
 public class GlobalSettings {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-    @Enumerated(EnumType.STRING)
-    private GlobalSetting code;
-    private String name;
-    private Boolean value;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
 
-    public Integer getId() {
+    @Column(nullable = false)
+    private String code;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(nullable = false)
+    private String value;
+
+    public GlobalSettings() {
+    }
+
+    public GlobalSettings(final String code, final String name, final String value) {
+        this.code = code;
+        this.name = name;
+        this.value = value;
+    }
+
+    public GlobalSettings(final String code, final String value) {
+        this.code = code;
+        this.value = value;
+    }
+
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(final int id) {
         this.id = id;
     }
 
-    public GlobalSetting getCode() {
+    public String getCode() {
         return code;
     }
 
-    public void setCode(GlobalSetting code) {
+    public void setCode(final String code) {
         this.code = code;
     }
 
@@ -39,15 +53,15 @@ public class GlobalSettings {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
-    public Boolean getValue() {
+    public String getValue() {
         return value;
     }
 
-    public void setValue(Boolean value) {
+    public void setValue(final String value) {
         this.value = value;
     }
 }

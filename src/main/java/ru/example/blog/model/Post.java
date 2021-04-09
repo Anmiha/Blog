@@ -34,7 +34,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private User userId;
+    private UserEntity userId;
 
     @Column(nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss")
@@ -93,11 +93,11 @@ public class Post {
         this.moderatorId = moderatorId;
     }
 
-    public User getUserId() {
+    public UserEntity getUserId() {
         return userId;
     }
 
-    public void setUserId(User userId) {
+    public void setUserId(UserEntity userId) {
         this.userId = userId;
     }
 
