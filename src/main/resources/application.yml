@@ -1,0 +1,43 @@
+spring.datasource.url: jdbc:mysql://localhost:3306/blog?serverTimezone=UTC
+spring.datasource.username: root
+spring.datasource.password: 12345
+spring.jpa.hibernate.ddl-auto: validate
+spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+spring.jpa.properties.hibernate.show_sql: false
+spring.jpa.properties.hibernate.use_sql_comments: false
+spring.jpa.properties.hibernate.format_sql: false
+
+
+
+
+global:
+    settings:
+        - code: MULTIUSER_MODE
+          name: Многопользовательский режим
+          value: 'NO'
+        - code: POST_PREMODERATION
+          name: Премодерация постов
+          value: 'NO'
+        - code: STATISTICS_IS_PUBLIC
+          name: Показывать всем статистику блога
+          value: 'YES'
+
+
+blog:
+    header:
+        title: Social
+        subtitle: Рассказы разработчиков
+        phone: +7 904-884-24-38
+        email: 9824104901@mail.ru
+        copyright: Михаил Андриевских
+        copyrightFrom: 2021
+
+captcha.deleteAfterMin: 60
+
+support.email: anmiha0672@mail.ru
+spring.mail.host: smtp.gmail.ru
+spring.mail.username: 9824104901
+spring.mail.password: Infobjout0672
+spring.mail.port: 465
+spring.mail.protocol: smtp
+

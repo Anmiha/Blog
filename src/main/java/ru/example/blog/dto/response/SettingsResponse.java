@@ -1,23 +1,25 @@
-package ru.example.blog.model;
+package ru.example.blog.dto.response;
 
-import lombok.Data;
+import org.springframework.stereotype.Controller;
 import ru.example.blog.model.enums.GlobalSetting;
 
+@Controller
+public class SettingsResponse {
 
-import javax.persistence.*;
-
-
-@Entity
-@Table(name = "global_settings")
-public class GlobalSettings {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Enumerated(EnumType.STRING)
     private GlobalSetting code;
     private String name;
     private Boolean value;
+
+
+    public SettingsResponse() {
+    }
+
+    public SettingsResponse(GlobalSetting code, String name, Boolean value) {
+        this.code = code;
+        this.name = name;
+        this.value = value;
+    }
 
     public Integer getId() {
         return id;

@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "settings.name",
+      "type": "java.lang.String",
+      "description": "Description for settings.name."
+    },
+    {
+      "name": "settings",
+      "type": "java.lang.String",
+      "description": "Description for settings."
+    }
+  ] }
