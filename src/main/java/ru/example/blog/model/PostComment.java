@@ -1,12 +1,10 @@
 package ru.example.blog.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
 @Entity
 @Table(name = "post_comments")
 public class PostComment {
@@ -24,7 +22,7 @@ public class PostComment {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity userId;
+    private User userId;
 
     @Column(nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss")
@@ -57,11 +55,11 @@ public class PostComment {
         this.postId = postId;
     }
 
-    public UserEntity getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(UserEntity userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

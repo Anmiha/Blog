@@ -8,5 +8,5 @@ import ru.example.blog.model.enums.GlobalSetting;
 @Repository
 public interface GlobalSettingsRepository extends CrudRepository<GlobalSettings, Integer> {
 
-    GlobalSettings findByCode(String code);
+
 }

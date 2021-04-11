@@ -1,6 +1,5 @@
 package ru.example.blog.model;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 import ru.example.blog.model.enums.ModerationStatus;
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+
 @Entity
 @EqualsAndHashCode(exclude = "tagList", callSuper = false)
 @ToString(exclude = "tagList")
@@ -34,7 +33,7 @@ public class Post {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private UserEntity userId;
+    private User userId;
 
     @Column(nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss")
@@ -93,11 +92,11 @@ public class Post {
         this.moderatorId = moderatorId;
     }
 
-    public UserEntity getUserId() {
+    public User getUserId() {
         return userId;
     }
 
-    public void setUserId(UserEntity userId) {
+    public void setUserId(User userId) {
         this.userId = userId;
     }
 

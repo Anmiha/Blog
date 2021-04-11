@@ -7,7 +7,6 @@ import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@Data
 @Entity
 @EqualsAndHashCode(exclude = "postList")
 @Table(name = "tags")
