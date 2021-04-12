@@ -3,9 +3,9 @@ spring.datasource.username: root
 spring.datasource.password: 12345
 spring.jpa.hibernate.ddl-auto: validate
 spring.jpa.properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
-spring.jpa.properties.hibernate.show_sql: false
-spring.jpa.properties.hibernate.use_sql_comments: false
-spring.jpa.properties.hibernate.format_sql: false
+spring.jpa.properties.hibernate.show_sql: folse
+spring.jpa.properties.hibernate.use_sql_comments: folse
+spring.jpa.properties.hibernate.format_sql: folse
 
 
 
