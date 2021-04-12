@@ -19,8 +19,8 @@ public class Tag {
     @Column(nullable = false)
     private String name;
 
-    @ManyToMany(mappedBy = "tagList")
-    private Set<Post> postList = new HashSet<>();
+//    @ManyToMany(mappedBy = "tagList")
+//    private Set<Post> postList = new HashSet<>();
 
     public Tag(String tagName) {
     }
@@ -44,11 +44,11 @@ public class Tag {
         this.name = name;
     }
 
-    public Set<Post> getPostList() {
-        return postList;
-    }
-
-    public void setPostList(Set<Post> postList) {
-        this.postList = postList;
-    }
+//    public Set<Post> getPostList() {
+//        return postList;
+//    }
+//
+//    public void setPostList(Set<Post> postList) {
+//        this.postList = postList;
+//    }
 }
