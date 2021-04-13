@@ -1,14 +1,6 @@
 package ru.example.blog.service.implementations;
 
-import com.example.diploma.data.response.StatisticResponse;
-import com.example.diploma.enums.GlobalSettings;
-import com.example.diploma.enums.StatisticsType;
-import com.example.diploma.exception.BadRequestException;
-import com.example.diploma.model.GlobalSetting;
-import com.example.diploma.model.enums.Permission;
-import com.example.diploma.repository.GlobalSettingRepository;
-import com.example.diploma.service.StatisticService;
-import com.example.diploma.service.UserService;
+
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import ru.example.blog.dto.response.StatisticResponse;
+import ru.example.blog.enums.GlobalSettings;
+import ru.example.blog.enums.StatisticsType;
+import ru.example.blog.exception.BadRequestException;
+import ru.example.blog.model.GlobalSetting;
+
+import ru.example.blog.model.enums.Permission;
+import ru.example.blog.repository.GlobalSettingRepository;
+import ru.example.blog.service.StatisticService;
+import ru.example.blog.service.UserService;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -23,7 +25,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.util.List;
 
-import static com.example.diploma.enums.GlobalSettings.Code.STATISTICS_IS_PUBLIC;
+import static ru.example.blog.enums.GlobalSettings.Code.STATISTICS_IS_PUBLIC;
+
 
 @Service
 @AllArgsConstructor

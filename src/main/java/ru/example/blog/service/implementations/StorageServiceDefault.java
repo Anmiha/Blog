@@ -1,10 +1,10 @@
 package ru.example.blog.service.implementations;
 
-import com.example.diploma.exception.BadRequestException;
-import com.example.diploma.exception.UploadException;
-import com.example.diploma.service.StorageService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import ru.example.blog.exception.BadRequestException;
+import ru.example.blog.exception.UploadException;
+import ru.example.blog.service.StorageService;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;

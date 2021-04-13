@@ -282,7 +282,7 @@ public class PostServiceDefault implements PostService {
 
         //delete previous tags
         List<Tag> prevTags = post.getTags();
-        tagService.deletePvTags(prevTags);
+        tagService.deletePrevTags(prevTags);
 
         ModerationStatus postStatus = (checkCurrentUser().getIsModerator() == 1) ?
                 post.getModerationStatus() :

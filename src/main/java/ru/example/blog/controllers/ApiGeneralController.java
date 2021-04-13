@@ -1,6 +1,5 @@
 package ru.example.blog.controllers;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.example.blog.dto.response.InitResponse;
@@ -34,12 +33,12 @@ public class ApiGeneralController {
     private ResponseEntity<SettingsResponse> settings() {
         return ResponseEntity.ok(settingsService.getGlobalSettings());
     }
-
-    @GetMapping("/tag")
-    public ResponseEntity<TagsDto> apiGetTag(@RequestParam(value = "query", defaultValue = "") String query) {
-        TagsDto tagsDto = new TagsDto(tagService.getAllTags(query));
-        return new ResponseEntity(tagsDto, HttpStatus.OK);
-    }
+//
+//    @GetMapping("/tag")
+//    public ResponseEntity<TagsDto> apiGetTag(@RequestParam(value = "query", defaultValue = "") String query) {
+//        TagsDto tagsDto = new TagsDto(tagService.getAllTags(query));
+//        return new ResponseEntity(tagsDto, HttpStatus.OK);
+//    }
 
 }
 

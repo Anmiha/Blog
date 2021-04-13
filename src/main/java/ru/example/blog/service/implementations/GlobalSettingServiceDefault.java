@@ -1,19 +1,21 @@
 package ru.example.blog.service.implementations;
 
-import com.example.diploma.data.request.GlobalSettingsRequest;
-import com.example.diploma.data.response.GlobalSettingResponse;
-import com.example.diploma.enums.GlobalSettings;
-import com.example.diploma.model.GlobalSetting;
-import com.example.diploma.repository.GlobalSettingRepository;
-import com.example.diploma.service.GlobalSettingService;
+
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import ru.example.blog.dto.request.GlobalSettingsRequest;
+import ru.example.blog.dto.response.GlobalSettingResponse;
+import ru.example.blog.enums.GlobalSettings;
+import ru.example.blog.model.GlobalSetting;
+import ru.example.blog.repository.GlobalSettingRepository;
+import ru.example.blog.service.GlobalSettingService;
+
 
 import java.util.HashSet;
 
-import static com.example.diploma.enums.GlobalSettings.Code.*;
+import static ru.example.blog.enums.GlobalSettings.Code.*;
 
 @Service
 @AllArgsConstructor

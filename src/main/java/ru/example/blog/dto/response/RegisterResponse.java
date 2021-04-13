@@ -1,9 +1,10 @@
 package ru.example.blog.dto.response;
 
-import com.example.diploma.data.response.base.ResultResponse;
-import com.example.diploma.data.response.type.RegisterErrorResponse;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
+import ru.example.blog.dto.response.base.ResultResponse;
+import ru.example.blog.dto.response.type.RegisterErrorResponse;
 
 @Data
 public class RegisterResponse extends ResultResponse {

@@ -1,8 +1,6 @@
 package ru.example.blog.dto;
 
 
-import ru.example.blog.model.User;
-
 public class PlainPostDto {
     private Integer id;
     private long timestamp;

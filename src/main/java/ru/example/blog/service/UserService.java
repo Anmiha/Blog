@@ -11,8 +11,9 @@ import ru.example.blog.dto.response.RegisterResponse;
 import ru.example.blog.dto.response.base.ResultResponse;
 import ru.example.blog.dto.response.type.PasswordChangeResponse;
 import ru.example.blog.model.User;
+import ru.example.blog.model.enums.Permission;
 
-import java.security.Permission;
+
 import java.security.Principal;
 import java.util.Map;
 

@@ -6,7 +6,7 @@ import com.github.cage.GCage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import ru.example.blog.config.config.AppConfig;
+import ru.example.blog.config.AppConfig;
 import ru.example.blog.dto.response.CaptchaResponse;
 import ru.example.blog.model.CaptchaCode;
 import ru.example.blog.repository.CaptchaCodeRepository;
