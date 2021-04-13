@@ -1,54 +1,45 @@
 package ru.example.blog.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 @Entity
-@EqualsAndHashCode(exclude = "postList")
 @Table(name = "tags")
+@Data
+@NoArgsConstructor
 public class Tag {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(nullable = false)
+    private int id;
+    @Column(columnDefinition = "varchar(255) not null")
     private String name;
 
-//    @ManyToMany(mappedBy = "tagList")
-//    private Set<Post> postList = new HashSet<>();
+    @ManyToMany
+    @JoinTable(
+            name = "tag2post",
+            joinColumns = {@JoinColumn(name = "tag_id")},
+            inverseJoinColumns = {@JoinColumn(name = "post_id")}
+    )
+    private List<Post> posts;
 
-    public Tag(String tagName) {
+    public Tag(String name, List<Post> posts) {
+        this.name = name;
+        this.posts = posts;
     }
 
-    public Tag() {
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public Tag(String name) {
         this.name = name;
     }
 
-//    public Set<Post> getPostList() {
-//        return postList;
-//    }
-//
-//    public void setPostList(Set<Post> postList) {
-//        this.postList = postList;
-//    }
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
+    }
 }

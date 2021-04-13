@@ -47,19 +47,19 @@ create table post_votes (
 ) engine=InnoDB;
 
 
-create table posts (
-                       id integer not null auto_increment,
-                       is_active tinyint not null,
-                       moderation_status varchar(255),
-                       moderator_id integer,
-                       text varchar(1000) not null,
-                       time datetime(6) not null,
-                       title varchar(255) not null,
-                       view_count integer not null,
-                       user_id integer not null,
-                       primary key (id)
-) engine=InnoDB;
+CREATE TABLE `posts` (
+                         `id` int NOT NULL AUTO_INCREMENT,
+                         `is_active` tinyint DEFAULT NULL,
+                         `moderation_status` enum('NEW','ACCEPTED','DECLINED') NOT NULL DEFAULT 'NEW',
+                         `text` text NOT NULL,
+                         `time` datetime NOT NULL,
+                         `title` varchar(255) NOT NULL,
+                         `view_count` int NOT NULL,
+                         `moderator_id` int DEFAULT NULL,
+                         `user_id` int DEFAULT NULL,
+                         PRIMARY KEY (`id`)
 
+) ENGINE=InnoDB;
 
 create table tag2post (
                           id integer not null auto_increment,

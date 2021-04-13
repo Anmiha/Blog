@@ -60,7 +60,7 @@ public class SecurityUser implements UserDetails {
                 user.getEmail(),
                 user.getPassword(),
                 true,true,true,true,
-                user.gerRole().getAutorities());
+                user.getRole().getAuthorities());
     }
 
 }

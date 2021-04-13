@@ -8,19 +8,19 @@ spring.jpa.properties.hibernate.use_sql_comments: folse
 spring.jpa.properties.hibernate.format_sql: folse
 
 
-
-global:
-    settings:
-        - code: MULTIUSER_MODE
-          name: Многопользовательский режим
-          value: 'NO'
-        - code: POST_PREMODERATION
-          name: Премодерация постов
-          value: 'NO'
-        - code: STATISTICS_IS_PUBLIC
-          name: Показывать всем статистику блога
-          value: 'YES'
-
+#
+#global:
+#    settings:
+#        - code: MULTIUSER_MODE
+#          name: Многопользовательский режим
+#          value: 'NO'
+#        - code: POST_PREMODERATION
+#          name: Премодерация постов
+#          value: 'NO'
+#        - code: STATISTICS_IS_PUBLIC
+#          name: Показывать всем статистику блога
+#          value: 'YES'
+#
 
 blog:
     header:
@@ -31,12 +31,38 @@ blog:
         copyright: Михаил Андриевских
         copyrightFrom: 2021
 
-captcha.deleteAfterMin: 60
+#captcha.deleteAfterMin: 60
 
-support.email: anmiha0672@mail.ru
-spring.mail.host: smtp.gmail.ru
-spring.mail.username: 9824104901
-spring.mail.password: Inffg
-spring.mail.port: 465
-spring.mail.protocol: smtp
+#support.email: anmiha0672@mail.ru
+#spring.mail.host: smtp.gmail.ru
+#spring.mail.username: 9824104901
+#spring.mail.password: Inffg
+#spring.mail.port: 465
+#spring.mail.protocol: smtp
+#
 
+spring.servlet.multipart:
+  max-file-size: 200KB
+  max-request-size: 200KB
+
+spring.mail:
+  host: smtp.gmail.com
+  username: defdevblog@gmail.com
+  password: ${APP_MAIL_PASS}
+  port: 587
+  smtp.auth: true
+  protocol: smtp
+
+mail.debug: true
+
+server.port: ${PORT:8080}
+
+captcha:
+  updateTime: 1
+  image:
+    width: 100
+    height: 35
+
+app:
+  upload-path: upload/
+  hostname: ${HOSTNAME}

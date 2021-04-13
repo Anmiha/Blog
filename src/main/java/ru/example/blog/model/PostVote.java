@@ -1,55 +1,49 @@
 package ru.example.blog.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.Data;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "post_votes")
 public class PostVote {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
-    @Column(name = "user_id", nullable = false)
-    private Integer userId;
-
-    @ManyToOne
-    @JoinColumn(name = "post_id", nullable = false)
-    private Post postId;
-
-    @Column(nullable = false)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd.MM.yyyy HH:mm:ss")
+    private int id;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.DETACH)
+    private User user;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "post_id", referencedColumnName = "id", nullable = false)
+    private Post post;
+    @Column(columnDefinition = "datetime not null")
     private LocalDateTime time;
+    @Column(columnDefinition = "tinyint not null")
+    private int value;
 
-    @Column(nullable = false)
-    private Byte value;
+    public PostVote() {
+    }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
-    public Integer getUserId() {
-        return userId;
+    public User getUser() {
+        return user;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
-    public Post getPostId() {
-        return postId;
+    public Post getPost() {
+        return post;
     }
 
-    public void setPostId(Post postId) {
-        this.postId = postId;
+    public void setPost(Post post) {
+        this.post = post;
     }
 
     public LocalDateTime getTime() {
@@ -60,11 +54,11 @@ public class PostVote {
         this.time = time;
     }
 
-    public Byte getValue() {
+    public int getValue() {
         return value;
     }
 
-    public void setValue(Byte value) {
+    public void setValue(int value) {
         this.value = value;
     }
 }
