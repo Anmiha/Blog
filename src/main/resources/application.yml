@@ -9,7 +9,6 @@ spring.jpa.properties.hibernate.format_sql: folse
 
 
 
-
 global:
     settings:
         - code: MULTIUSER_MODE

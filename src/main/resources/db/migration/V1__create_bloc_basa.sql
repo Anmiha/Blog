@@ -1,4 +1,3 @@
-
 create table captcha_codes (
                                id integer not null auto_increment,
                                code varchar(255) not null,
