@@ -9,10 +9,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.logout.SimpleUrlLogoutSuccessHandler;
 import ru.example.blog.security.UserDetailsServiceImpl;
 
 @Configuration
@@ -31,15 +29,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/**", "/upload/**").permitAll()
+                .antMatchers("/**").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and()
                 .formLogin().disable()
                 .httpBasic();
-//                .logout()
-//                .logoutSuccessHandler(new SimpleUrlLogoutSuccessHandler())
-//                .logoutSuccessUrl("/");
+
     }
 
     @Bean

@@ -1,14 +1,15 @@
 package ru.example.blog.service;
 
-import ru.example.blog.dto.response.TagDto;
+import ru.example.blog.dto.response.TagResponse;
 import ru.example.blog.model.Tag;
 import java.util.List;
-import java.util.Set;
 
 public interface TagService {
-    Tag saveOrGetTag(String tagName);
+    TagResponse getTags();
 
-    Set<Tag> collectTags(String[] tags);
+    Tag saveNewTag(String name);
 
-    List<TagDto> getAllTags(String tagName);
+    void deletePrevTags(List<Tag> tagList);
+
+    Tag findTagByName(String name);
 }

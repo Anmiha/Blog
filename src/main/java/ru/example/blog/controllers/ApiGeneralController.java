@@ -5,7 +5,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.example.blog.dto.response.InitResponse;
 import ru.example.blog.dto.response.SettingsResponse;
-import ru.example.blog.dto.response.TagsDto;
 import ru.example.blog.service.SettingsService;
 import ru.example.blog.service.TagService;
 

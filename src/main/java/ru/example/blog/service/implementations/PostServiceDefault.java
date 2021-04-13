@@ -1,20 +1,47 @@
 package ru.example.blog.service.implementations;
-
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.Errors;
+import ru.example.blog.dto.CalendarDto;
+import ru.example.blog.dto.CommentDto;
 import ru.example.blog.dto.PlainPostDto;
+import ru.example.blog.dto.request.ModerateRequest;
+import ru.example.blog.dto.request.NewPostRequest;
 import ru.example.blog.dto.response.PostResponse;
+import ru.example.blog.dto.response.PostWithCommentsResponse;
+import ru.example.blog.dto.response.base.ResultResponse;
+import ru.example.blog.dto.response.type.NewPostResponse;
+import ru.example.blog.enums.GlobalSettings;
+import ru.example.blog.enums.ModerationStatus;
+import ru.example.blog.enums.PostModerationStatus;
+import ru.example.blog.exception.WrongPageException;
 import ru.example.blog.mappers.EntityMapper;
+import ru.example.blog.model.GlobalSetting;
 import ru.example.blog.model.Post;
+import ru.example.blog.model.Tag;
+import ru.example.blog.model.User;
 import ru.example.blog.repository.PostRepository;
 import ru.example.blog.repository.UserRepository;
+import ru.example.blog.security.SecurityUser;
+import ru.example.blog.service.GlobalSettingService;
 import ru.example.blog.service.PostService;
 import ru.example.blog.service.TagService;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -22,7 +49,7 @@ public class PostServiceDefault implements PostService {
     private final PostRepository repository;
     private final UserRepository userRepository;
     private final TagService tagService;
-
+    private final GlobalSettingService globalSettingService;
 
     private EntityMapper entityMapper;
 
@@ -61,4 +88,270 @@ public class PostServiceDefault implements PostService {
         return list;
     }
 
- }
+    @Override
+    public PostWithCommentsResponse getPost(Integer id) {
+        Post post = repository.findById(id).orElseThrow(
+                () -> new WrongPageException("page not found")
+        );
+
+        List<CommentDto> comments = getPostComment(post);
+        List<String> tags = getPostTags(post);
+
+        increaseViewCount(post);
+
+        return new PostWithCommentsResponse(post, comments, tags);
+    }
+
+    private List<String> getPostTags(Post post) {
+        return post.getTags().stream()
+                .map(Tag::getName)
+                .collect(Collectors.toList());
+    }
+
+    private List<CommentDto> getPostComment(Post post) {
+        return post.getComments()
+                .stream()
+                .map(CommentDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public CalendarDto getCalendar(Integer year) {
+        CalendarDto calendarDto = new CalendarDto();
+
+        List<Post> postList = repository.getPostsForCalendar();
+        calendarDto.setYears(
+                postList.stream()
+                        .map(p -> LocalDate.ofInstant(p.getTime(), ZoneId.systemDefault()).getYear())
+                        .collect(Collectors.toSet())
+        );
+        Map<String, Long> list = postList.stream()
+                .collect(Collectors.groupingBy(p ->
+                                LocalDate.ofInstant(p.getTime(), ZoneId.of("UTC")).toString(),
+                        Collectors.counting()));
+        calendarDto.setPosts(list);
+
+        return calendarDto;
+    }
+
+    private void increaseViewCount(Post post) {
+        User currUser = checkCurrentUser();
+        if (currUser.getId() != 0) {
+            if (post.getUser().equals(currUser)) {
+                return;
+            }
+        }
+        repository.save(post.toBuilder()
+                .viewCount(post.getViewCount() + 1).build());
+    }
+
+    @Override
+    public PostResponse findPostsByQuery(String query, Pageable pageable) {
+        Page<Post> postsPage = repository.findPostsByQuery(query, pageable);
+        List<PlainPostDto> posts = postsPage.stream().map(entityMapper::postToPlainPostDto).collect(Collectors.toList());
+        PostResponse response = new PostResponse();
+        response.setPosts(posts, postsPage.getTotalElements());
+        return response;
+    }
+
+    @Override
+    public PostResponse findPostsByDate(String dateTime, Pageable pageable) {
+        Instant date = LocalDate.parse(dateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd")).atStartOfDay().toInstant(ZoneOffset.UTC);
+
+        Page<Post> postsPage = repository.findPostsByDate(date, pageable);
+        List<PlainPostDto> posts = postsPage.stream().map(entityMapper::postToPlainPostDto).collect(Collectors.toList());
+
+        PostResponse response = new PostResponse();
+        response.setPosts(posts, postsPage.getTotalElements());
+        return response;
+    }
+
+    @Override
+    public PostResponse findPostsByTag(String tag, Pageable pageable) {
+        Page<Post> postsPage = repository.findPostsByTag(tag, pageable);
+        List<PlainPostDto> posts = postsPage.stream().map(entityMapper::postToPlainPostDto).collect(Collectors.toList());
+
+        PostResponse response = new PostResponse();
+        response.setPosts(posts, postsPage.getTotalElements());
+
+        return response;
+    }
+
+    @Override
+    public PostResponse findPostsForModeration(ModerationStatus status, Pageable pageable) {
+
+        Page<Post> postsPage = repository.findPostForModeration(status, pageable);
+        List<PlainPostDto> posts = postsPage.stream().map(entityMapper::postToPlainPostDto).collect(Collectors.toList());
+
+        PostResponse response = new PostResponse();
+        response.setPosts(posts, postsPage.getTotalElements());
+
+        return response;
+    }
+
+    @Override
+    public PostResponse findMyPosts(PostModerationStatus status, Pageable pageable) {
+        PostResponse response = new PostResponse();
+        String email = ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getUsername();
+
+        User user = userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("username not found"));
+
+        Page<Post> postsPage = repository.findMyPosts(
+                user.getId(),
+                status.getModerationStatus(),
+                status.isActive(),
+                pageable
+        );
+        List<PlainPostDto> posts = postsPage.stream().map(entityMapper::postToPlainPostDto).collect(Collectors.toList());
+
+        response.setPosts(posts, postsPage.getTotalElements());
+
+        return response;
+    }
+
+    @Override
+    @Transactional
+    public ResultResponse<NewPostResponse> addNewPost(NewPostRequest request, Errors errors) {
+        ResultResponse<NewPostResponse> response = new ResultResponse<>();
+        //check request
+        if (errors.hasErrors()) {
+            response.setResult(false);
+            response.setErrors(getErrors(errors));
+            return response;
+        }
+
+        List<Tag> tags = newPostTags(request);
+
+        //create post
+        long currentTime = Instant.now().getEpochSecond();
+        HashSet<GlobalSetting> siteSettings = globalSettingService.getSiteSettings();
+        ModerationStatus moderationStatus = ModerationStatus.NEW;
+        for (GlobalSetting setting : siteSettings) {
+            if (setting.getCode().equals(GlobalSettings.Code.POST_PREMODERATION)) {
+                if (!setting.getValue().getValue()) {
+                    moderationStatus = ModerationStatus.ACCEPTED;
+                }
+            }
+        }
+
+        Post post = Post.builder()
+                .isActive(request.getActive() == 1)
+                .moderationStatus(moderationStatus)
+                .user(checkCurrentUser())
+                .tags(tags)
+                .time(Instant.ofEpochSecond(Math.max(currentTime, request.getTimestamp())))
+                .title(request.getTitle())
+                .text(request.getText())
+                .build();
+        repository.save(post);
+
+        return response;
+    }
+
+    private List<Tag> newPostTags(NewPostRequest request) {
+        List<Tag> tags = new ArrayList<>();
+        if (request.getTags() != null) {
+            request.getTags().forEach(tag -> tags.add(takeTag(tag)));
+        }
+        return tags;
+    }
+
+    @Override
+    @Transactional
+    public ResultResponse<NewPostResponse> editPost(Integer id, NewPostRequest request, Errors errors) {
+        ResultResponse<NewPostResponse> response = new ResultResponse<>();
+
+        //check request
+        if (errors.hasErrors()) {
+            response.setResult(false);
+            response.setErrors(getErrors(errors));
+            return response;
+        }
+
+        //check tags
+        List<Tag> tags = new ArrayList<>();
+        if (request.getTags() != null) {
+            request.getTags().forEach(tag -> tags.add(takeTag(tag)));
+        }
+
+        //update post
+        long currentTime = Instant.now().getEpochSecond();
+        Post post = repository.findById(id).orElseThrow(
+                () -> new WrongPageException("page not found")
+        );
+
+        //delete previous tags
+        List<Tag> prevTags = post.getTags();
+        tagService.deletePvTags(prevTags);
+
+        ModerationStatus postStatus = (checkCurrentUser().getIsModerator() == 1) ?
+                post.getModerationStatus() :
+                ModerationStatus.NEW;
+
+        Post editedPost = post.toBuilder()
+                .isActive(request.getActive() == 1)
+                .moderationStatus(postStatus)
+                .user(checkCurrentUser())
+                .tags(tags)
+                .time(Instant.ofEpochSecond(Math.max(currentTime, request.getTimestamp())))
+                .title(request.getTitle())
+                .text(request.getText())
+                .build();
+
+        repository.save(editedPost);
+
+        return response;
+    }
+
+    private Tag takeTag(String name) {
+        Tag tag = tagService.findTagByName(name);
+        return (tag != null) ? tag : tagService.saveNewTag(name);
+    }
+
+    public User checkCurrentUser() {
+        Object currUser = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (!(currUser instanceof SecurityUser)) {
+            return new User();
+        }
+        String email = ((SecurityUser) currUser).getUsername();
+        return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user not found"));
+    }
+
+    private NewPostResponse getErrors(Errors errors) {
+        NewPostResponse postErrors = new NewPostResponse();
+        if (errors.hasFieldErrors("title")) {
+            postErrors.setTitle(errors.getFieldError("title").getDefaultMessage());
+        }
+        if (errors.hasFieldErrors("text")) {
+            postErrors.setText(errors.getFieldError("text").getDefaultMessage());
+        }
+        return postErrors;
+    }
+
+    @Override
+    public boolean moderatePost(ModerateRequest request) {
+        try {
+            Post post = repository.findById(request.getPostId()).orElseThrow(
+                    () -> new WrongPageException("page not found")
+            );
+            ModerationStatus decision = (request.getDecision().equals("accept")) ?
+                    ModerationStatus.ACCEPTED : ModerationStatus.DECLINED;
+
+            repository.save(post.toBuilder()
+                    .moderationStatus(decision)
+                    .moderator(checkCurrentUser())
+                    .build()
+            );
+        } catch (Exception exception) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public Post findPostById(Integer id) {
+        return repository.findById(id).orElseThrow(
+                () -> new WrongPageException("post not found")
+        );
+    }
+}
