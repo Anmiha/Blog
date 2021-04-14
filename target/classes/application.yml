@@ -20,7 +20,7 @@ spring.jpa.properties.hibernate.format_sql: folse
 #        - code: STATISTICS_IS_PUBLIC
 #          name: Показывать всем статистику блога
 #          value: 'YES'
-#
+
 
 blog:
     header:
@@ -31,15 +31,15 @@ blog:
         copyright: Михаил Андриевских
         copyrightFrom: 2021
 
-#captcha.deleteAfterMin: 60
+captcha.deleteAfterMin: 60
 
-#support.email: anmiha0672@mail.ru
-#spring.mail.host: smtp.gmail.ru
-#spring.mail.username: 9824104901
-#spring.mail.password: Inffg
-#spring.mail.port: 465
-#spring.mail.protocol: smtp
-#
+support.email: anmiha0672@mail.ru
+spring.mail.host: smtp.gmail.ru
+spring.mail.username: 9824104901
+spring.mail.password: Inffg
+spring.mail.port: 465
+spring.mail.protocol: smtp
+
 
 spring.servlet.multipart:
   max-file-size: 200KB

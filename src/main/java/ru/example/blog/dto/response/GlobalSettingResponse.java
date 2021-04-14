@@ -12,4 +12,27 @@ public class GlobalSettingResponse {
     @JsonProperty("STATISTICS_IS_PUBLIC")
     private boolean statisticsIsPublic;
 
+    public boolean isMultisuserMode() {
+        return multisuserMode;
+    }
+
+    public void setMultisuserMode(boolean multisuserMode) {
+        this.multisuserMode = multisuserMode;
+    }
+
+    public boolean isPostPremoderation() {
+        return postPremoderation;
+    }
+
+    public void setPostPremoderation(boolean postPremoderation) {
+        this.postPremoderation = postPremoderation;
+    }
+
+    public boolean isStatisticsIsPublic() {
+        return statisticsIsPublic;
+    }
+
+    public void setStatisticsIsPublic(boolean statisticsIsPublic) {
+        this.statisticsIsPublic = statisticsIsPublic;
+    }
 }

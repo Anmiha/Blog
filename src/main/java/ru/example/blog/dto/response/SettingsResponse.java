@@ -18,11 +18,11 @@ public class SettingsResponse {
         this.multiuserMode = multiuserMode;
     }
 
-    public boolean isPostOremoderation() {
+    public boolean isPostPremoderation() {
         return postPremoderation;
     }
 
-    public void setPostOremoderation(boolean postPremoderation) {
+    public void setPostPremoderation(boolean postPremoderation) {
         this.postPremoderation = postPremoderation;
     }
 

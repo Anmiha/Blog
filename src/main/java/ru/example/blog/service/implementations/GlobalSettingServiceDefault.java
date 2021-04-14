@@ -12,7 +12,6 @@ import ru.example.blog.model.GlobalSetting;
 import ru.example.blog.repository.GlobalSettingRepository;
 import ru.example.blog.service.GlobalSettingService;
 
-
 import java.util.HashSet;
 
 import static ru.example.blog.enums.GlobalSettings.Code.*;
@@ -20,6 +19,7 @@ import static ru.example.blog.enums.GlobalSettings.Code.*;
 @Service
 @AllArgsConstructor
 public class GlobalSettingServiceDefault implements GlobalSettingService {
+
     private final GlobalSettingRepository repository;
 
     @Override public ResponseEntity<GlobalSettingResponse> getAllSettings() {
@@ -40,6 +40,7 @@ public class GlobalSettingServiceDefault implements GlobalSettingService {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
 
     private static GlobalSetting getDefaultSettings(){
         GlobalSetting gs = new GlobalSetting();
@@ -66,5 +67,8 @@ public class GlobalSettingServiceDefault implements GlobalSettingService {
             globalSetting.setValue(value);
             repository.save(globalSetting);
         }
+
+
+
     }
 }

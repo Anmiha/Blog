@@ -10,11 +10,14 @@ public class GlobalSetting {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(255) not null")
+
     private GlobalSettings.Code code;
     @Column(columnDefinition = "varchar(255) not null")
     private String name;
+
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "varchar(255) not null")
     private GlobalSettings.Value value;

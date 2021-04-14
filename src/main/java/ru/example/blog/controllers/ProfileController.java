@@ -21,22 +21,22 @@ public class ProfileController {
     private final UserService userService;
 
 
-    @PostMapping(value = "/my", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('user:write')")
-    public ResponseEntity<ResultResponse<?>> updateProfile(@Valid @RequestBody ProfileRequest request, Errors errors) {
-
-        return ResponseEntity.ok(userService.editProfile(request, errors));
-    }
-
-    @PostMapping(value = "/my", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    @PreAuthorize("hasAuthority('user:write')")
-    public ResponseEntity<ResultResponse<?>> updateProfileWithPhoto(
-            @RequestParam("photo") MultipartFile photo,
-            @RequestParam("removePhoto") boolean removePhoto,
-            @RequestParam("name") String name,
-            @RequestParam("email") String email,
-            @RequestParam(name = "password", required = false) String password
-    ) {
-        return ResponseEntity.ok(userService.updateProfileWithPhoto(photo, removePhoto, name, email, password));
-    }
+//    @PostMapping(value = "/my", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    @PreAuthorize("hasAuthority('user:write')")
+//    public ResponseEntity<ResultResponse<?>> updateProfile(@Valid @RequestBody ProfileRequest request, Errors errors) {
+//
+//        return ResponseEntity.ok(userService.editProfile(request, errors));
+//    }
+//
+//    @PostMapping(value = "/my", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//    @PreAuthorize("hasAuthority('user:write')")
+//    public ResponseEntity<ResultResponse<?>> updateProfileWithPhoto(
+//            @RequestParam("photo") MultipartFile photo,
+//            @RequestParam("removePhoto") boolean removePhoto,
+//            @RequestParam("name") String name,
+//            @RequestParam("email") String email,
+//            @RequestParam(name = "password", required = false) String password
+//    ) {
+//        return ResponseEntity.ok(userService.updateProfileWithPhoto(photo, removePhoto, name, email, password));
+//    }
 }

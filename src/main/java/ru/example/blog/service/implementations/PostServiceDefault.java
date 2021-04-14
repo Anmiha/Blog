@@ -1,4 +1,5 @@
 package ru.example.blog.service.implementations;
+
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,7 +32,6 @@ import ru.example.blog.security.SecurityUser;
 import ru.example.blog.service.GlobalSettingService;
 import ru.example.blog.service.PostService;
 import ru.example.blog.service.TagService;
-
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;

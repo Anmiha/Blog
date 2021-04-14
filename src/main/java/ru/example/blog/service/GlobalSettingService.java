@@ -14,4 +14,5 @@ public interface GlobalSettingService {
     void setGlobalSettings(GlobalSettingsRequest request);
 
     HashSet<GlobalSetting> getSiteSettings();
+
 }
