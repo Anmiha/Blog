@@ -7,16 +7,18 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="blog" />
+        <module name="DiplomaBlog" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="blog" target="11" />
+      <module name="DiplomaBlog" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="PREFER_TARGET_JDK_COMPILER" value="false" />
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="DiplomaBlog" options="-parameters" />
       <module name="blog" options="-parameters" />
     </option>
   </component>
