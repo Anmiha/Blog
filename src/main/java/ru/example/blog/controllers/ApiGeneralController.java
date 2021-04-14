@@ -10,6 +10,7 @@ import ru.example.blog.dto.CalendarDto;
 import ru.example.blog.dto.request.GlobalSettingsRequest;
 import ru.example.blog.dto.request.ModerateRequest;
 import ru.example.blog.dto.response.GlobalSettingResponse;
+import ru.example.blog.dto.response.InitResponse;
 import ru.example.blog.dto.response.StatisticResponse;
 import ru.example.blog.dto.response.TagResponse;
 import ru.example.blog.dto.response.base.ResultResponse;
@@ -29,6 +30,12 @@ public class ApiGeneralController {
     private final GlobalSettingService globalSettingService;
     private final StatisticService statisticService;
     private final StorageService storageService;
+    private final InitResponse initResponse;
+
+    @GetMapping("/init")
+    public ResponseEntity<InitResponse> init() {
+        return ResponseEntity.ok(initResponse);
+    }
 
     @GetMapping("/tag")
     public ResponseEntity<TagResponse> showTags(@RequestParam(required = false) String query) {
