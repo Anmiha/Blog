@@ -1,13 +1,13 @@
 <component name="libraryTable">
-  <library name="Maven: org.skyscreamer:jsonassert:1.5.0">
+  <library name="Maven: org.hibernate:hibernate-core:5.4.10.Final">
     <CLASSES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/skyscreamer/jsonassert/1.5.0/jsonassert-1.5.0.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/5.4.10.Final/hibernate-core-5.4.10.Final.jar!/" />
     </CLASSES>
     <JAVADOC>
-      <root url="jar://$MAVEN_REPOSITORY$/org/skyscreamer/jsonassert/1.5.0/jsonassert-1.5.0-javadoc.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/5.4.10.Final/hibernate-core-5.4.10.Final-javadoc.jar!/" />
     </JAVADOC>
     <SOURCES>
-      <root url="jar://$MAVEN_REPOSITORY$/org/skyscreamer/jsonassert/1.5.0/jsonassert-1.5.0-sources.jar!/" />
+      <root url="jar://$MAVEN_REPOSITORY$/org/hibernate/hibernate-core/5.4.10.Final/hibernate-core-5.4.10.Final-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

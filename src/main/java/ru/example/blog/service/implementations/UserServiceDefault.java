@@ -21,6 +21,7 @@ import ru.example.blog.dto.request.ProfileRequest;
 import ru.example.blog.dto.request.RegisterRequest;
 import ru.example.blog.dto.response.LoginResponse;
 import ru.example.blog.dto.response.RegisterResponse;
+import ru.example.blog.dto.response.UserLoginResponse;
 import ru.example.blog.dto.response.UserResponse;
 import ru.example.blog.dto.response.base.ResultResponse;
 import ru.example.blog.dto.response.type.PasswordChangeResponse;
@@ -147,7 +148,7 @@ public class UserServiceDefault implements UserService {
         boolean isModerator = currentUser.getIsModerator() == 1;
 
         response.setResult(true);
-        response.setUser(UserResponse.builder()
+        response.setUserResponse(UserResponse.builder()
                 .id(currentUser.getId())
                 .name(currentUser.getName())
                 .photo(currentUser.getPhoto())
@@ -183,7 +184,7 @@ public class UserServiceDefault implements UserService {
         boolean isModerator = user.getIsModerator() == 1;
 
         response.setResult(true);
-        response.setUser(UserResponse.builder()
+        response.setUserResponse(UserResponse.builder()
                 .id(user.getId())
                 .name(user.getName())
                 .photo(user.getPhoto())

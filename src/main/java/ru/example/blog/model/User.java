@@ -31,6 +31,14 @@ public class User {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     private List<PostVote> votes = new ArrayList<>();
 
+    public List<PostVote> getVotes() {
+        return votes;
+    }
+
+    public void setVotes(List<PostVote> votes) {
+        this.votes = votes;
+    }
+
     public Role getRole() {
         return isModerator == 1 ? Role.MODERATOR : Role.USER;
     }
@@ -98,4 +106,6 @@ public class User {
     public void setPhoto(String photo) {
         this.photo = photo;
     }
+
+
 }

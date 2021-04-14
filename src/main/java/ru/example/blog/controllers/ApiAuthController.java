@@ -6,13 +6,13 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 import ru.example.blog.dto.request.LoginRequest;
 import ru.example.blog.dto.request.RegisterRequest;
-import ru.example.blog.dto.response.CaptchaResponse;
-import ru.example.blog.dto.response.LoginResponse;
-import ru.example.blog.dto.response.RegisterResponse;
-import ru.example.blog.model.User;
+import ru.example.blog.dto.response.*;
+
 import ru.example.blog.repository.UserRepository;
 import ru.example.blog.service.UserService;
 import ru.example.blog.service.implementations.CaptchaService;
@@ -59,6 +59,21 @@ public class ApiAuthController {
         SecurityContextHolder.getContext().setAuthentication(auth);
         User user = (User) auth.getPrincipal();
         return ResponseEntity.ok(getLoginResponse(user.getUsername()));
+    }
+
+    private LoginResponse getLoginResponse(String email) {
+        ru.example.blog.model.User currentUser = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(email));
+        UserLoginResponse userResponse=new UserLoginResponse();
+        userResponse.setEmail(currentUser.getEmail());
+        userResponse.setName(currentUser.getName());
+        userResponse.setModeration(currentUser.getIsModerator() == 1);
+        userResponse.setId(currentUser.getId());
+
+        LoginResponse loginResponse = new LoginResponse();
+        loginResponse.setResult(true);
+            loginResponse.setUser(userResponse);
+        return loginResponse;
     }
 
     @GetMapping("/logout")
